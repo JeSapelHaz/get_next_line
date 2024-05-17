@@ -6,40 +6,24 @@
 /*   By: hbutt <hbutt@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:11:27 by hbutt             #+#    #+#             */
-/*   Updated: 2024/05/15 16:06:42 by hbutt            ###   ########.fr       */
+/*   Updated: 2024/05/17 20:44:10 by hbutt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "get_next_line.h"
-
-// int	ft_verif_nl(char *str)
-// {
-// 	size_t i;
-// 	i = 0;
-// 	while (str[i])
-// 	{
-// 		if (str[i] == '\n')
-// 			return (0);
-// 		i++;
-// 	}
-// 	return (1);
-// }
-
 #include "get_next_line.h"
 
-/* va liberer la memoire allouee pour la chaine mise en parametre */
-char	*ft_free_all(char **str1)
+/* va libérer la mémoire allouée à la chaine pointée par str
+	+ va mettre le pointer str à NULL pour eéviter l'accès aà une
+	zone de mémoire déjà libérée (segfault)	*/
+char	*ft_free_all(char **str)
 {
-	if (str1 && *str1)
-	{
-		free(*str1);
-		*str1 = NULL;
-	}
+	free(*str);
+	*str = NULL;
 	return (0);
 }
 
-/* verifie s'il y a un '\n' dans la chaine de caracteres */
-int	ft_not_nl_static(char *str)
+/* booleen qui renvoie 1 si la string ne contient pas de '\n' sinon 0 */
+int	ft_no_nl_next(char *str)
 {
 	size_t	i;
 
@@ -56,7 +40,8 @@ int	ft_not_nl_static(char *str)
 	return (1);
 }
 
-/* calcule la longueur de str, et free la string si elle est NULL */
+/* va renvoyer la taille du string en paramètre ou va renvoyer 0 et free
+	la string si la string est vide */
 static size_t	ft_strlen(char *str)
 {
 	size_t	i;
@@ -72,9 +57,9 @@ static size_t	ft_strlen(char *str)
 	return (i);
 }
 
-/* concatene 2 chaines de caracteres en une seule en ayant prealablement allouee 
-	dynamiquement la nouvelle chaine */
-char	*ft_strjoingnl(char *str1, char *str2)
+/* va concatener les 2 string et renvoyer la nouvelle string en ayant
+	préalablement allouée la mémoire avec la bonne taille */
+char	*ft_strjoin_gnl(char *str1, char *str2)
 {
 	size_t	i;
 	size_t	j;
