@@ -6,7 +6,7 @@
 /*   By: hbutt <hbutt@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:11:14 by hbutt             #+#    #+#             */
-/*   Updated: 2024/05/17 21:06:28 by hbutt            ###   ########.fr       */
+/*   Updated: 2024/05/17 21:16:27 by hbutt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,6 @@ static char	*ft_find_end_line(int fd, char *stach)
 	char	buffer[BUFFER_SIZE + 1];
 	int		read_ret;
 
-	if (!stach)
-	{
-		stach = malloc(sizeof(char) + 1);
-		if (!stach)
-			return (ft_free_all(&stach));
-		stach[0] = '\0';
-	}
 	read_ret = 1;
 	while (ft_no_nl_next(stach) && read_ret > 0)
 	{
@@ -107,6 +100,13 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (0);
+	if (!stach)
+	{
+		stach = malloc(sizeof(char) + 1);
+		if (!stach)
+			return (ft_free_all(&stach));
+		stach[0] = '\0';
+	}
 	stach = ft_find_end_line(fd, stach);
 	line = ft_stach_in_line(stach);
 	if (!line)
