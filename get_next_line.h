@@ -6,12 +6,15 @@
 /*   By: hbutt <hbutt@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:11:00 by hbutt             #+#    #+#             */
-/*   Updated: 2024/05/17 20:44:14 by hbutt            ###   ########.fr       */
+/*   Updated: 2024/05/20 17:50:50 by hbutt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 420
+# endif
 
 # include <stdlib.h>
 # include <unistd.h>
