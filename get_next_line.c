@@ -6,7 +6,7 @@
 /*   By: hbutt <hbutt@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:11:14 by hbutt             #+#    #+#             */
-/*   Updated: 2024/05/17 21:16:27 by hbutt            ###   ########.fr       */
+/*   Updated: 2024/05/20 15:15:24 by hbutt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,15 +74,15 @@ static char	*ft_stach_wt_line(char *stach)
 /* va lire le fichier en lisant BUFFER_SIZE caractères jusqu'à qu'un retour
 	à la ligne soit trouvé ou fin du fichier et va faire appel à une autre
 	fonction pour join la staching va être renvoyée avec le buffer */
-static char	*ft_find_end_line(int fd, char *stach)
+static char	*ft_find_end_line(int fd, char *stach, int buff)
 {
-	char	buffer[BUFFER_SIZE + 1];
+	char	buffer[buff+1];
 	int		read_ret;
 
 	read_ret = 1;
 	while (ft_no_nl_next(stach) && read_ret > 0)
 	{
-		read_ret = read(fd, buffer, BUFFER_SIZE);
+		read_ret = read(fd, buffer, buff);
 		if (read_ret == -1)
 			return (ft_free_all(&stach));
 		buffer[read_ret] = '\0';
@@ -97,9 +97,11 @@ char	*get_next_line(int fd)
 {
 	char		*line;
 	static char	*stach;
+	int			buff;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE >= 2147483647)
 		return (0);
+	buff = BUFFER_SIZE;
 	if (!stach)
 	{
 		stach = malloc(sizeof(char) + 1);
@@ -107,7 +109,7 @@ char	*get_next_line(int fd)
 			return (ft_free_all(&stach));
 		stach[0] = '\0';
 	}
-	stach = ft_find_end_line(fd, stach);
+	stach = ft_find_end_line(fd, stach, buff);
 	line = ft_stach_in_line(stach);
 	if (!line)
 		return (ft_free_all(&stach));
@@ -120,10 +122,11 @@ char	*get_next_line(int fd)
 // int main(void)
 // {
 // 	int fd = open("fuckajit.txt", O_RDONLY);
-// 	int i = 0;
-// 	while(i < 20)
+// 	char *line = get_next_line(fd);
+// 	// int i = 0;
+// 	while(line)
 // 	{
-// 		printf("%s", get_next_line(fd));
-// 		i++;
+// 		printf("%s", line);
+// 		line = get_next_line(fd);	
 // 	}
 // }
